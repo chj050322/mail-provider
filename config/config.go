@@ -21,10 +21,17 @@ type SmtpConfig struct {
 	From     string `json:"from"`
 }
 
+type SendcloudConfig struct {
+	ApiUser string `json:"apiuser"`
+	ApiKey  string `json:"apikey"`
+	From    string `json:"from"`
+}
+
 type GlobalConfig struct {
-	Debug bool        `json:"debug"`
-	Http  *HttpConfig `json:"http"`
-	Smtp  *SmtpConfig `json:"smtp"`
+	Debug     bool             `json:"debug"`
+	Http      *HttpConfig      `json:"http"`
+	Smtp      *SmtpConfig      `json:"smtp"`
+	Sendcloud *SendcloudConfig `json:"sendcloud"`
 }
 
 var (
