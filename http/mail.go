@@ -55,24 +55,30 @@ func SendMail(tos string, subject, content string) int32 {
 
 	requestURI := "http://api.sendcloud.net/apiv2/mail/send"
 
-	/*xsmtpapi := struct {
+	list := strings.Split(tos, ";")
+	xsmtpapi := struct {
 		To  []string            `json:"to"`
 		Sub map[string][]string `json:"sub"`
 	}{
-		To:  []string{tos},
+		To:  []string{},
 		Sub: map[string][]string{},
 	}
+	for _, em := range list {
+		if strings.Index(em, "@") > 0 {
+			xsmtpapi.To = append(xsmtpapi.To, em)
+		}
+	}
 	xsmtpapi_str, _ := json.Marshal(&xsmtpapi)
-	*/
+
 	postParams := url.Values{
-		"apiUser": {apiUser},
-		"apiKey":  {apiKey},
-		"from":    {from},
-		//"xsmtpapi": {string(xsmtpapi_str)},
-		"to":             {tos},
-		"subject":        {subject},
-		"html":           {content},
-		"useAddressList": {"true"},
+		"apiUser":  {apiUser},
+		"apiKey":   {apiKey},
+		"from":     {from},
+		"xsmtpapi": {string(xsmtpapi_str)},
+		//"to":             {tos},
+		"subject": {subject},
+		"html":    {content},
+		//"useAddressList": {"true"},
 	}
 	postBody := bytes.NewBufferString(postParams.Encode())
 	fmt.Println("req:", models.Json2String(&postParams))
